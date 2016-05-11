@@ -1,0 +1,97 @@
+body {
+	background-color: #012338;
+	/*background-color: #F7F6E8;*/
+	/*font-family: 'Lato', sans-serif;*/
+	font-family: adrianna-extended-1,adrianna-extended-2, sans-serif;
+	/*font-family: 'PT Sans', sans-serif;*/
+	text-align: center;
+
+}
+
+.pagecopy {
+	margin-top: 70px;
+	color: white;
+}
+
+h1 {
+	font-size: 70px;
+	margin-top: -30px;
+	margin-bottom: -5px;
+	font-weight: lighter;
+	font-family: 'Open Sans', sans-serif;
+}
+
+h2{
+	font-size: 20px;	
+	font-weight: lighter;
+	font-style: italic;
+	opacity: 0.8;
+	/*font-family: 'Libre Baskerville', serif;*/
+	font-family: 'Arapey', serif;
+	
+}
+p {
+	color: rgba(230, 96, 74, 0.9);
+	font-size: 17px;
+	margin:  0 0 0;
+	font-weight: lighter;
+	font-family: 'Open Sans', sans-serif;
+}
+h3 {
+	color: rgba(230, 96, 74, 0.9);
+	font-size: 17px;
+	margin-top:  30px;
+	font-weight: lighter;
+	font-family: 'Open Sans', sans-serif;
+}
+
+a {
+	font-family: 'Arapey', serif;
+		font-weight: lighter;
+		opacity: 0.5;
+	font-style: italic;
+	color: white;
+    text-decoration: none;
+}
+
+svg {
+	background-color: #012338;
+}
+
+svg2{
+	background-color: white;
+}
+
+circle:hover {
+	fill: orange;
+}
+
+#link{
+	opacity: 0.8;
+}
+
+.axis path,
+.axis line {
+	fill: none;
+	stroke: black;
+	shape-rendering: crispEdges;
+}
+
+.axis text {
+	font-family: sans-serif;
+	font-size: 11px;
+}
+
+div.tooltip {	
+	position: absolute;			
+	text-align:center;			
+					
+	padding: 8px;				
+	font: 9px sans-serif;		
+	background-color: rgba(230, 96, 74, 0.9);
+	color: white;
+	opacity: 0.6;	
+	border: 0px;		
+	border-radius: 8px;			
+	pointer-events: none;			
+}

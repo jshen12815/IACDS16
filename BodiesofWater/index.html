@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Bodies of Water</title>
+		<script src = "http://d3js.org/d3.v3.min.js"> </script>
+		<link rel="stylesheet" type="text/css" href="lakestyle.css">
+		<link href='https://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
+		 <link href='https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400italic,700' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300italic,300,400italic,600,700,600italic' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Arapey:400,400italic' rel='stylesheet' type='text/css'>
+	</head>
+
+
+
+
+	<body>
+		<!--a href="lakes.html">dosages</a-->
+		<div class = pagecopy> 
+
+			<h2> Global Lakes and Wetlands Database</h2>
+			<h1> BODIES OF WATER </h1>
+
+			<!--p>A visualization of approximately approximately 250,000 bodies of water.</p-->
+			<p>A VISUALIZATION OF APPROXIMATELY 250,000 BODIES OF WATER BY JESSICA SHEN.</p>
+			
+			<a> by Jessica Shen, data from </a>
+			<a id = "link" href = "http://www.worldwildlife.org/pages/global-lakes-and-wetlands-database"> worldwildlife.org</a>
+
+		</div>
+
+		<script>
+        var w = 1400;
+        var h = 1200;
+
+		var div = d3.select("body").append("div")	
+    		.attr("class", "tooltip")				
+    		.style("opacity", 0);
+
+
+        var path = d3.geo.path();
+//First SVG graph GOES HEREE /////////////////////////////////////////////////
+
+        </script>
+
+        <script>
+        var svg = d3.select("body")
+        		.append("svg")
+        		.attr({width:w, height: h});
+
+        d3.json("gwld.json", function(json) {
+
+            svg.selectAll("path")
+               .data(json.features)
+               .enter()
+               .append("path" )
+               .attr("d", path )
+               .attr("transform", function(d, i) {
+			        var centroid = path.centroid(d),
+			            x = centroid[0],
+			            y = centroid[1];
+			            scale = 20;
+			            type = d.properties.TYPE;
+			            if (type = "Reservoir") { var haha = 13;}
+			            else {var haha = 16;}
+			            addition = haha + 550 - (scale * y);
+			            sub = 750 - (scale * x);
+
+
+
+			        return "translate(" + sub + "," + addition + ")"
+			            + "scale(" + scale +")";
+			      })
+               .attr("fill", "#DCF2FF" )
+               .attr("opacity", 0.05)
+               .on("mouseover", function(d) {
+               		d3.select(this).style("opacity", 0.1);
+               		div.transition()		
+		                .duration(200)		
+		                .style("opacity", .9);		
+		            div	.html( d.properties.LAKE_NAME )	
+		                .style("left", (d3.event.pageX) + "px")		
+		                .style("top", (d3.event.pageY - 28) + "px")
+
+		                .style('background-color', "rgba(230, 96, 74, 0.9)")
+		                .style("opacity", 0.7)	;
+
+		            })					
+		        .on("mouseout", function(d) {	
+		        d3.select(this).style("opacity", 0.05);	
+		            div.transition()		
+		                .duration(500)		
+		                .style("opacity", 0);
+
+               }	);
+
+
+
+        });
+
+	</script>
+	<p>RESERVOIRS VERSUS LAKE SHAPES </p>
+</br>
+
+	<script>
+//SECOND SVG graph GOES HEREE /////////////////////////////////////////////////
+        var svg2 = d3.select("body")
+        		.append("svg")
+        		.style("background-color", "#D8E2E9")
+        		.attr({width:w, height: 700});
+
+        d3.json("gwld.json", function(json) {
+
+            svg2.selectAll("path")
+               .data(json.features)
+
+               .enter()
+               .append("path" )
+               .attr("d", path )
+               .attr("transform", function(d, i) {
+               	 	var type = function(d) { return d.properties.TYPE }
+			        var centroid = path.centroid(d),
+			            x = centroid[0],
+			            y = centroid[1];
+			            scale = 13;
+			            addition =  350 - (scale * y);
+			            sub =   750 - (scale * x);
+
+			            if (type(d) == "Reservoir"){
+			            	var subx = -500 + sub
+			            	return "translate(" + subx + "," + addition+ ")"
+			            + "scale(" + scale +")";
+
+			            }
+			            else if (type(d) == "Lake"){
+			            	var subx = 300 + sub
+			            	return "translate(" + subx + "," + addition+ ")"
+			            + "scale(" + scale +")";
+
+			            }
+			            else {
+			            	console.log ( type(d) )
+			            	return "translate(" + sub + "," + addition+ ")"
+			            + "scale(" + 9 +")";
+
+			            }
+			      })
+               .attr("fill", "#CE3800") //"#F55242")//"#F1AA96" )//"#333399")
+		       .attr("opacity", 0.1)
+               .on("mouseover", function(d) {
+               		d3.select(this).style("opacity", 0.3);
+               		div.transition()		
+		                .duration(200)		
+		                .style("opacity", .9);		
+		            div	.html( d.properties.LAKE_NAME + "<br/>" + d.properties.TYPE )	//d.id + "<br/>"  +
+		                .style("left", (d3.event.pageX) + "px")		
+		                .style("top", (d3.event.pageY - 28) + "px")
+		                .style('background-color', "#30387A")
+		                .style("opacity", 0.7)	;
+		            })		
+
+		
+		        .on("mouseout", function(d) {	
+		        d3.select(this).style("opacity", 0.1);	
+		            div.transition()		
+		                .duration(500)		
+		                .style("opacity", 0);
+
+               }	)
+
+        });
+
+</script>
+</br>
+	<h3>AREA </h3>
+</br>
+
+	<script>
+//THIRD SVG graph GOES HEREE /////////////////////////////////////////////////
+        var svg3 = d3.select("body")
+        		.append("svg")
+        		.style("background-color", "#0000000")
+        		.attr({width:w, height: 500});
+
+        d3.json("gwld.json", function(json) {
+
+            svg3.selectAll("path")
+               .data(json.features)
+
+               .enter()
+               .append("path" )
+               .attr("d", path )
+               .attr("transform", function(d, i) {
+               	 	var type = function(d) { return d.properties.TYPE }
+			        var centroid = path.centroid(d),
+			            x = centroid[0],
+			            y = centroid[1];
+			        var bounds = path.bounds(d),
+			        	l = bounds[0][0],
+			        	t = bounds[0][1],
+			        	r = bounds[1][0],
+			        	b = bounds[1][1];
+			        var area = path.area(d);
+
+			        var scale = 9;
+			        	boundsC = (r - l) * (t - b)
+			        	ypos = 200 + -(scale * y)
+			        	xpos = 150 + area/(0.03) - (scale * x)
+			        	//xpos = area
+
+			        	return "translate(" + xpos + "," + ypos+ ")"
+			            + "scale(" + scale +")";
+
+			      })
+               .attr("fill", "#DCF2FF") //"#333399")//"#F1AA96" )//"#333399")
+		       .attr("opacity", 0.1)
+               .on("mouseover", function(d) {
+               		d3.select(this).style("opacity", 0.3);
+               		div.transition()		
+		                .duration(200)		
+		                .style("opacity", .9);		
+		            div	.html( d.properties.LAKE_NAME  )	//d.id + "<br/>"  +
+		                .style("left", (d3.event.pageX) + "px")		
+		                .style("top", (d3.event.pageY - 28) + "px")
+		                .style('background-color', "rgba(230, 96, 74, 0.9)")//"#30387A")
+		                .style("opacity", 0.7)	;
+		            })		
+
+		
+		        .on("mouseout", function(d) {	
+		        d3.select(this).style("opacity", 0.1);	
+		            div.transition()		
+		                .duration(500)		
+		                .style("opacity", 0);
+
+               })
+
+        });
+
+
+
+    </script>
+    </br>
+	<h3>DENSITY</h3>
+</br>
+    	<script>
+//FOURTH SVG graph GOES HEREE /////////////////////////////////////////////////
+        var svg4 = d3.select("body")
+        		.append("svg")
+        		.style("background-color", "#0000000")
+        		.attr({width:w, height: 600});
+
+        d3.json("gwld.json", function(json) {
+
+            svg4.selectAll("path")
+               .data(json.features)
+
+               .enter()
+               .append("path" )
+               .attr("d", path )
+               .attr("transform", function(d, i) {
+               	 	var type = function(d) { return d.properties.TYPE }
+			        var centroid = path.centroid(d),
+			            x = centroid[0],
+			            y = centroid[1];
+			        var bounds = path.bounds(d),
+			        	l = bounds[0][0],
+			        	t = bounds[0][1],
+			        	r = bounds[1][0],
+			        	b = bounds[1][1];
+			        var area = path.area(d);
+
+			        var scale = 5;
+			        	boundsC = (r - l) * (t - b)
+			        	ypos = 200 + -(scale * y)
+			        	xpos = 1500 + (4200 * (area/boundsC)) - (scale * x)
+			        	//xpos = area
+
+			        	return "translate(" + xpos + "," + ypos+ ")"
+			            + "scale(" + scale +")";
+
+			      })
+               .attr("fill", "#DCF2FF") //"#333399")//"#F1AA96" )//"#333399")
+		       .attr("opacity", 0.1)
+               .on("mouseover", function(d) {
+               		d3.select(this).style("opacity", 0.3);
+               		div.transition()		
+		                .duration(200)		
+		                .style("opacity", .9);		
+		            div	.html( d.properties.LAKE_NAME  )	//d.id + "<br/>"  +
+		                .style("left", (d3.event.pageX) + "px")		
+		                .style("top", (d3.event.pageY - 28) + "px")
+		                .style('background-color', "rgba(230, 96, 74, 0.9)")//"#30387A")
+		                .style("opacity", 0.7)	;
+		            })		
+
+		
+		        .on("mouseout", function(d) {	
+		        d3.select(this).style("opacity", 0.1);	
+		            div.transition()		
+		                .duration(500)		
+		                .style("opacity", 0);
+
+               })
+
+        });
+
+
+
+    </script >
+
+	<h3>By size</h3>
+</br>
+    	<script>
+//FIFTH SVG graph GOES HEREE /////////////////////////////////////////////////
+        var svg5 = d3.select("body")
+        		.append("svg")
+        		.style("background-color", "#D8E2E9")
+        		.attr({width:1400, height: 1400});
+
+        d3.json("gwld.json", function(json) {
+
+            svg5.selectAll("path")
+               .data(json.features)
+
+               .enter()
+               .append("path" )
+               .attr("d", path )
+               .attr("transform", function(d, i) {
+               	 	var type = function(d) { return d.properties.TYPE }
+			        var centroid = path.centroid(d),
+			            x = centroid[0],
+			            y = centroid[1];
+			        var bounds = path.bounds(d),
+			        	l = bounds[0][0],
+			        	t = bounds[0][1],
+			        	r = bounds[1][0],
+			        	b = bounds[1][1];
+			        var area = path.area(d);
+
+			        var scale = 7;
+			        	boundsC = (r - l) * (t - b)
+			        /*	ypos = 400-(100*(i/3000))  + -(scale * y)
+			        	xpos = 1100-(i%1000) - (scale * x)
+			        	//xpos = area*/
+			        	ypos = (200 + (9*(i/30)) -(scale * y))
+			        	xpos =  (100 + (50 * (i % 30)) - (scale * x))
+
+			        	return "translate(" + xpos + "," + ypos+ ")"
+			            + "scale(" + scale +")";
+
+
+			      })
+               .attr("fill", "#012338") //"#333399")//"#F1AA96" )//"#333399")
+		       .attr("opacity", 0.1)
+
+		     //  path.append("text")
+	    		//	.attr("dx", function(d){return -20})
+	    		//	.text(function(d){return d.properties.LAKE_NAME })
+		       //.attr("text", function(d, i) {
+		       .on("mouseover", function(d){
+		       		d3.select(this).style("opacity", 0.3);
+		       		var text = function(d) {return d.properties.LAKE_NAME}
+		       		console.log(text);
+		       		return text;
+		       		div.html( d.properties.LAKE_NAME  )	//d.id + "<br/>"  +
+		                .style("left", (d3.event.pageX) + "px")		
+		                .style("top", (d3.event.pageY - 28) + "px")
+		                .style('background-color', "rgba(230, 96, 74, 0.9)")
+		                .style("opacity", 0.7);
+		       })
+
+           /*    .on("mouseover", function(d) {
+               		d3.select(this).style("opacity", 0.3);
+               		div.transition()		
+		                .duration(200)		
+		                .style("opacity", .9);		
+		            div.html( d.properties.LAKE_NAME  )	//d.id + "<br/>"  +
+		                .style("left", (d3.event.pageX) + "px")		
+		                .style("top", (d3.event.pageY - 28) + "px")
+		                .style('background-color', "rgba(230, 96, 74, 0.9)")
+		                .style("opacity", 0.7)	;
+		            })		*/
+
+		
+		        .on("mouseout", function(d) {	
+		        d3.select(this).style("opacity", 0.1);	
+		            div.transition()		
+		                .duration(500)		
+		                .style("opacity", 0);
+
+               })
+
+        });
+
+
+
+    </script>
+
+
+
+
+	</body>
+</html>
