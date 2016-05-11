@@ -359,17 +359,18 @@
 	    		//	.attr("dx", function(d){return -20})
 	    		//	.text(function(d){return d.properties.LAKE_NAME })
 		       //.attr("text", function(d, i) {
-		       .on("mouseover", function(d){
-		       		d3.select(this).style("opacity", 0.3);
-		       		var text = function(d) {return d.properties.LAKE_NAME}
-		       		console.log(text);
-		       		return text;
-		       		div.html( d.properties.LAKE_NAME  )	//d.id + "<br/>"  +
+		        .on("mouseover", function(d) {
+               		d3.select(this).style("opacity", 0.3);
+               		div.transition()		
+		                .duration(200)		
+		                .style("opacity", .9);		
+		            div	.html( d.properties.LAKE_NAME  )	//d.id + "<br/>"  +
 		                .style("left", (d3.event.pageX) + "px")		
 		                .style("top", (d3.event.pageY - 28) + "px")
-		                .style('background-color', "rgba(230, 96, 74, 0.9)")
-		                .style("opacity", 0.7);
-		       })
+		                .style('background-color', "rgba(230, 96, 74, 0.9)")//"#30387A")
+		                .style("opacity", 0.7)	;
+		            })		
+
 
            /*    .on("mouseover", function(d) {
                		d3.select(this).style("opacity", 0.3);
